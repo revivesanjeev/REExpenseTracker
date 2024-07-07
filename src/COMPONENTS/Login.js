@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import "./Form.css"; // Import the CSS file
 
-const Signup = () => {
-  const [email,setEmail]=useState("");
-  const [password,setpassword]=useState("");
-  const [confirmPassword,setConfirmPassword] = useState("");
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+ 
 
-  const submithandler = (e) => {
-    e.preventDefault();
+   const [islogin, setIsLoggedIn] = useState(false);
 
-
-    if (password !== confirmPassword) {
-      alert("Password and Confirm Password do not match");
-      return;
-    }
+  const loginHandler = (event) => {
+    event.preventDefault();
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
       {
         method: "POST",
         body: JSON.stringify({
@@ -32,27 +31,32 @@ const Signup = () => {
     )
       .then((res) => {
         if (res.ok) {
-          console.log({ email, password });
+          console.log("user logged in");
+          setIsLoggedIn(true);
+          alert("You are logged in");
           return res.json();
         } else {
           return res.json().then((data) => {
             let errorMessage = "Authentication failed";
-            if (data && data.error && data.error.message) {
-              errorMessage = data.error.message;
-            }
             throw new Error(errorMessage);
           });
         }
       })
+      .then((data) => {
+         authCtx.login(data.idToken);
+        setEmail("");
+        setPassword("");
+        navigate("/");
+      })
       .catch((err) => {
-        alert(err.message);
+        console.error(err);
       });
   };
 
   return (
     <div className="form-container">
-      <form onSubmit={submithandler} className="form">
-        <h2 className="form-title">Sign Up</h2>
+      <form onSubmit={loginHandler} className="form">
+        <h2 className="form-title">Login</h2>
         <div className="form-group">
           <label htmlFor="email" className="form-label">
             Email
@@ -77,37 +81,26 @@ const Signup = () => {
             required
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setpassword(e.target.value)}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword" className="form-label">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            required
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             className="form-input"
           />
         </div>
         <button type="submit" className="form-button">
-          Sign Up
+          Login
         </button>
+        <a href="#" className="form-link">
+          Forgot password?
+        </a>
         <button
           type="button"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/signup")}
           className="form-link-button"
         >
-          Have an account? Login
+          Don't have an account? Sign up
         </button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;
