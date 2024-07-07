@@ -33,12 +33,13 @@ const Login = () => {
         if (res.ok) {
           console.log("user logged in");
           setIsLoggedIn(true);
-          alert("You are logged in");
           return res.json();
         } else {
-          return res.json().then((data) => {
+          return res.json()
+          .then((data) => {
             let errorMessage = "Authentication failed";
             throw new Error(errorMessage);
+            // alert("Authentication failed");
           });
         }
       })
@@ -49,7 +50,7 @@ const Login = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.error(err);
+        alert(err.message);
       });
   };
 
