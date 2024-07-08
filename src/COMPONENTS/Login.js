@@ -11,6 +11,7 @@ const Login = () => {
  
 
    const [islogin, setIsLoggedIn] = useState(false);
+   const [showVerifyButton, setShowVerifyButton] = useState(false);
   
 
   const loginHandler = (event) => {
@@ -49,12 +50,55 @@ const Login = () => {
          authCtx.login(data.idToken);
         setEmail("");
         setPassword("");
-        navigate("/");
+         setShowVerifyButton(true);
+        // navigate("/");
       })
       .catch((err) => {
         alert(err.message);
       });
   };
+
+
+
+
+ const sendVerificationEmail = () => {
+   fetch(
+     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
+     {
+       method: "POST",
+       body: JSON.stringify({
+         requestType: "VERIFY_EMAIL",
+         idToken: authCtx.token,
+       }),
+       headers: {
+         "Content-Type": "application/json",
+       },
+     }
+   )
+     .then((res) => {
+       if (res.ok) {
+         alert("Verification email sent! Check your email.");
+       } else {
+         return res.json().then((data) => {
+           let errorMessage = "Failed to send verification email";
+           if (data.error && data.error.message) {
+             errorMessage = data.error.message;
+           }
+           throw new Error(errorMessage);
+         });
+       }
+     })
+     .catch((err) => {
+       alert(err.message);
+     });
+ };
+
+
+
+
+
+
+
 
   return (
     <div className="form-container">
@@ -102,6 +146,11 @@ const Login = () => {
           Don't have an account? Sign up
         </button>
       </form>
+      {showVerifyButton && (
+        <button onClick={sendVerificationEmail} className="form-button">
+          Verify Email
+        </button>
+      )}
     </div>
   );
 };

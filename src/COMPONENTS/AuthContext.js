@@ -11,13 +11,17 @@ export const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
     const initialToken = localStorage.getItem("token");
       const [token, setToken] = useState(initialToken);
+       const initialEmail = localStorage.getItem("email");
+       const [email, setEmail] = useState(initialEmail);
       const userIsLoggedIn = !!token;
 
     const [oncomplete,setOncomplete]=useState(false);
 
 const loginHandler = (token) => {
   setToken(token);
+  setEmail(email);
   localStorage.setItem("token", token);
+   localStorage.setItem("email", email);
   setOncomplete(true);
 };
 
@@ -27,6 +31,7 @@ const loginHandler = (token) => {
 
  const contextValue = {
    token: token,
+   email: email,
    isLoggedIn: userIsLoggedIn,
    login: loginHandler,
    oncomplete: oncomplete,
