@@ -11,6 +11,7 @@ const Login = () => {
  
 
    const [islogin, setIsLoggedIn] = useState(false);
+  
 
   const loginHandler = (event) => {
     event.preventDefault();
@@ -39,7 +40,7 @@ const Login = () => {
           .then((data) => {
             let errorMessage = "Authentication failed";
             throw new Error(errorMessage);
-            // alert("Authentication failed");
+            
           });
         }
       })
@@ -47,7 +48,7 @@ const Login = () => {
          authCtx.login(data.idToken);
         setEmail("");
         setPassword("");
-        navigate("/");
+        navigate("/complete");
       })
       .catch((err) => {
         alert(err.message);
