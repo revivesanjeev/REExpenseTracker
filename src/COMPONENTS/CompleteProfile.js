@@ -1,26 +1,56 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import "./CompleteProfile.css"
+import "./CompleteProfile.css";
 
-const CompleteProfile = (props) => {
-  const { completeProfile } = useContext(AuthContext);
+const CompleteProfile = () => {
+  const { token, completeProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [profilePhoto, setProfilePhoto] = useState("");
+  const [userId, setUserId] = useState("");
 
-  const handleUpdate = (event) => {
+  useEffect(() => {
+    const userId = JSON.parse(atob(token.split(".")[1])).user_id;
+    setUserId(userId);
 
-   event.preventDefault();
- const dataofform = {
-   Name: fullName,
-   URl:profilePhoto,
- 
-  
- };
- props.onSubmit(dataofform);
-    completeProfile();
-    navigate("/");
+    fetch(
+      `https://reexpensetracker-default-rtdb.firebaseio.com/users/${userId}.json?auth=${token}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          // Check if data is not null
+          setFullName(data.fullName || "");
+          setProfilePhoto(data.profilePhoto || "");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [token]);
+
+  const handleUpdate = () => {
+    fetch(
+      `https://reexpensetracker-default-rtdb.firebaseio.com/users/${userId}.json?auth=${token}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          fullName: fullName,
+          profilePhoto: profilePhoto,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then(() => {
+        completeProfile();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error updating user data:", error);
+      });
   };
 
   return (
@@ -30,7 +60,9 @@ const CompleteProfile = (props) => {
       </nav>
 
       <div className="form-container">
-        <button className="cancel-button">Cancel</button>
+        <button className="cancel-button" onClick={() => navigate("/")}>
+          Cancel
+        </button>
         <div className="form">
           <h2>Contact Details</h2>
           <h3>Full Name:</h3>

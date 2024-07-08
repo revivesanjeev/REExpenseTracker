@@ -30,6 +30,7 @@ const Login = () => {
         },
       }
     )
+
       .then((res) => {
         if (res.ok) {
           console.log("user logged in");

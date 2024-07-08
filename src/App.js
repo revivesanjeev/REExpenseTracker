@@ -11,19 +11,7 @@ import CompleteProfile from "./COMPONENTS/CompleteProfile";
 function App() {
   const { IsLoggedIn,oncomplete } = useContext(AuthContext);
 
-   async function handleSubmitForm(dataofform) {
-     await fetch(
-       "https://reexpensetracker-default-rtdb.firebaseio.com///Completeprofile.json",
-       {
-         method: "POST",
-         body: JSON.stringify(dataofform),
-         headers: {
-           "Content-Type": "application/json",
-         },
-       }
-     );
-   }
-
+ 
   return (
     <Router>
       {IsLoggedIn && oncomplete ? <CompleteProfile /> : <MainNavigate />}
@@ -33,7 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route
           path="/complete"
-          element={<CompleteProfile onSubmit={handleSubmitForm} />}
+          element={<CompleteProfile  />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
