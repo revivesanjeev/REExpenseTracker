@@ -49,7 +49,7 @@ const Login = () => {
          authCtx.login(data.idToken);
         setEmail("");
         setPassword("");
-        navigate("/complete");
+        navigate("/");
       })
       .catch((err) => {
         alert(err.message);

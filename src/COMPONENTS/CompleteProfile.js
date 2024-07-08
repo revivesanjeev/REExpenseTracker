@@ -58,7 +58,7 @@ const CompleteProfile = () => {
       <nav className="navbar" style={{ color: "white" }}>
         Winners never Quit, Quitters never win
       </nav>
-
+ 
       <div className="form-container">
         <button className="cancel-button" onClick={() => navigate("/")}>
           Cancel

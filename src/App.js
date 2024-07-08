@@ -14,7 +14,7 @@ function App() {
  
   return (
     <Router>
-      {IsLoggedIn && oncomplete ? <CompleteProfile /> : <MainNavigate />}
+      {IsLoggedIn && !oncomplete ? <CompleteProfile /> : <MainNavigate />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
