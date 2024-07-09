@@ -1,9 +1,28 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link,useNavigate } from "react-router-dom";
 import "./MainNavigate.css"; 
+import { AuthContext } from "./AuthContext";
 
 const MainNavigate = () => {
+
+  const authCtx=useContext(AuthContext);
+  const email=authCtx.email;
+  const token=authCtx.token;
+
+const navigate=useNavigate();
+
+const logouthandler=()=>{
+  
+  localStorage.removeItem("token", token);
+  localStorage.removeItem("email", email);
+  
+navigate("/login")
+
+
+}
+
+
   return (
     <nav className="navbar">
       <ul className="nav-list">
@@ -17,11 +36,10 @@ const MainNavigate = () => {
             Login
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/signup" className="nav-link">
-            Signup
-          </Link>
-        </li>
+
+
+        <button onClick={logouthandler}>Logout</button>
+       
       </ul>
     </nav>
   );
