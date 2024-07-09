@@ -5,7 +5,9 @@ export const AuthContext = createContext({
   oncomplete: false,
   isLoggedIn: false,
   login: (token) => {},
-  completeProfile: () => {}
+  completeProfile: () => {},
+  showverifybutton:false,
+  
 });
 
 export const AuthProvider = ({ children }) => {

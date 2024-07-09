@@ -1,0 +1,50 @@
+div{
+  background-color: #f0f8ff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+input[type="number"],
+input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #87cefa;
+  border-radius: 4px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border-color: #1e90ff;
+}
+
+
+h3 {
+  color: #4169e1;
+  font-size: 18px;
+  margin: 15px 0 10px;
+}
+
+
+select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #87cefa;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  margin-top: 10px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease-in-out;
+}
+
+select:focus {
+  border-color: #1e90ff;
+}

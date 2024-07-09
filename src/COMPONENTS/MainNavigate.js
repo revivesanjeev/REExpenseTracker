@@ -1,27 +1,23 @@
-
-import React, { useContext } from "react";
-import { Link,useNavigate } from "react-router-dom";
-import "./MainNavigate.css"; 
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./MainNavigate.css";
 import { AuthContext } from "./AuthContext";
 
 const MainNavigate = () => {
+  const authCtx = useContext(AuthContext);
+  const email = authCtx.email;
+  const token = authCtx.token;
+  const isLoggedIn = authCtx.isLoggedIn;
 
-  const authCtx=useContext(AuthContext);
-  const email=authCtx.email;
-  const token=authCtx.token;
+  const [showVerifyButton, setShowVerifyButton] = useState(false);
+  const navigate = useNavigate();
 
-const navigate=useNavigate();
-
-const logouthandler=()=>{
-  
-  localStorage.removeItem("token", token);
-  localStorage.removeItem("email", email);
-  
-navigate("/login")
-
-
-}
-
+  const logoutHandler = () => {
+    localStorage.removeItem("token", token);
+    localStorage.removeItem("email", email);
+    setShowVerifyButton(true);
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -31,15 +27,20 @@ navigate("/login")
             Home
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/login" className="nav-link">
-            Login
-          </Link>
-        </li>
-
-
-        <button onClick={logouthandler}>Logout</button>
-       
+        {!isLoggedIn && (
+          <li className="nav-item">
+            <Link to="/login" className="nav-link">
+              Login
+            </Link>
+          </li>
+        )}
+        {isLoggedIn && !showVerifyButton && (
+          <li className="nav-item">
+            <button onClick={logoutHandler} className="nav-link-button">
+              Logout
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

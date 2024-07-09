@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import "./Form.css"; 
+import "./Form.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
- 
 
-   const [islogin, setIsLoggedIn] = useState(false);
-   const [showVerifyButton, setShowVerifyButton] = useState(false);
-  
+  const isLoggedIn = authCtx.isLoggedIn;
+
+  const [isLogin, setIsLoggedIn] = useState(false);
+  const [showVerifyButton, setShowVerifyButton] = useState(false);
 
   const loginHandler = (event) => {
     event.preventDefault();
@@ -31,76 +31,65 @@ const Login = () => {
         },
       }
     )
-
       .then((res) => {
         if (res.ok) {
           console.log("user logged in");
           setIsLoggedIn(true);
           return res.json();
         } else {
-          return res.json()
-          .then((data) => {
+          return res.json().then((data) => {
             let errorMessage = "Authentication failed";
             throw new Error(errorMessage);
-            
           });
         }
       })
       .then((data) => {
-         authCtx.login(data.idToken);
+        authCtx.login(data.idToken);
         setEmail("");
         setPassword("");
-         setShowVerifyButton(true);
-        // navigate("/");
+        setShowVerifyButton(true);
       })
       .catch((err) => {
         alert(err.message);
       });
   };
 
+  const sendVerificationEmail = () => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          requestType: "VERIFY_EMAIL",
+          idToken: authCtx.token,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          alert("Verification email sent! Check your email.");
+          navigate("/");
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Failed to send verification email";
+            if (data.error && data.error.message) {
+              errorMessage = data.error.message;
+            }
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
-
-
- const sendVerificationEmail = () => {
-   fetch(
-     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
-     {
-       method: "POST",
-       body: JSON.stringify({
-         requestType: "VERIFY_EMAIL",
-         idToken: authCtx.token,
-       }),
-       headers: {
-         "Content-Type": "application/json",
-       },
-     }
-   )
-     .then((res) => {
-       if (res.ok) {
-         alert("Verification email sent! Check your email.");
-       } else {
-         return res.json().then((data) => {
-           let errorMessage = "Failed to send verification email";
-           if (data.error && data.error.message) {
-             errorMessage = data.error.message;
-           }
-           throw new Error(errorMessage);
-         });
-       }
-     })
-     .catch((err) => {
-       alert(err.message);
-     });
- };
-
-
- const forgetPasswordHandler = () => {
-   navigate("/forgot-password");
- };
-
-
-
-
+  const forgetPasswordHandler = () => {
+    navigate("/forgot-password");
+  };
 
   return (
     <div className="form-container">
@@ -137,7 +126,7 @@ const Login = () => {
         <button type="submit" className="form-button">
           Login
         </button>
-        <a href="#"  onClick={forgetPasswordHandler}   className="form-link">
+        <a href="#" onClick={forgetPasswordHandler} className="form-link">
           Forgot password?
         </a>
         <button
