@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import "./Form.css"; // Import the CSS file
+import "./Form.css"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -94,7 +94,9 @@ const Login = () => {
  };
 
 
-
+ const forgetPasswordHandler = () => {
+   navigate("/forgot-password");
+ };
 
 
 
@@ -135,7 +137,7 @@ const Login = () => {
         <button type="submit" className="form-button">
           Login
         </button>
-        <a href="#" className="form-link">
+        <a href="#"  onClick={forgetPasswordHandler}   className="form-link">
           Forgot password?
         </a>
         <button

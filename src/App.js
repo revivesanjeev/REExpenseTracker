@@ -7,6 +7,7 @@ import { AuthContext } from "./COMPONENTS/AuthContext";
 import { useContext } from "react";
 import MainNavigate from "./COMPONENTS/MainNavigate"
 import CompleteProfile from "./COMPONENTS/CompleteProfile";
+import ForgotPassword from "./COMPONENTS/ForgetPasswordHandler";
 
 function App() {
   const { IsLoggedIn,oncomplete } = useContext(AuthContext);
@@ -19,10 +20,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/complete"
-          element={<CompleteProfile  />}
-        />
+        <Route path="/complete" element={<CompleteProfile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
