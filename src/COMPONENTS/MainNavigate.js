@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./MainNavigate.css";
 import { AuthContext } from "./AuthContext";
 
-const MainNavigate = () => {
+const Mainnavigate = () => {
   const authCtx = useContext(AuthContext);
   const email = authCtx.email;
   const token = authCtx.token;
@@ -46,4 +46,4 @@ const MainNavigate = () => {
   );
 };
 
-export default MainNavigate;
+export default Mainnavigate;

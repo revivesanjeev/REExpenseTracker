@@ -34,7 +34,7 @@ const CompleteProfile = () => {
     fetch(
       `https://reexpensetracker-default-rtdb.firebaseio.com/users/${userId}.json?auth=${token}`,
       {
-        method: "PATCH",
+        method: "PATCH",//using patch to update the data assuming that database accept the data if resource is not available in database
         body: JSON.stringify({
           fullName: fullName,
           profilePhoto: profilePhoto,
