@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import "./Form.css";
+import "./Login.css"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -92,11 +92,13 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={loginHandler} className="form">
-        <h2 className="form-title">Login</h2>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
+    <div className="login-form-container">
+
+
+    {!showVerifyButton &&  <form onSubmit={loginHandler} className="login-form">
+        <h2 className="login-form-title">Login</h2>
+        <div className="login-form-group">
+          <label htmlFor="email" className="login-form-label">
             Email
           </label>
           <input
@@ -106,11 +108,11 @@ const Login = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
+            className="login-form-input"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
+        <div className="login-form-group">
+          <label htmlFor="password" className="login-form-label">
             Password
           </label>
           <input
@@ -120,25 +122,27 @@ const Login = () => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="form-input"
+            className="login-form-input"
           />
         </div>
-        <button type="submit" className="form-button">
+        <button type="submit" className="login-form-button">
           Login
         </button>
-        <a href="#" onClick={forgetPasswordHandler} className="form-link">
+        <a href="#" onClick={forgetPasswordHandler} className="login-form-link">
           Forgot password?
         </a>
         <button
           type="button"
           onClick={() => navigate("/signup")}
-          className="form-link-button"
+          className="login-form-link-button"
         >
           Don't have an account? Sign up
         </button>
       </form>
+}
+
       {showVerifyButton && (
-        <button onClick={sendVerificationEmail} className="form-button">
+        <button onClick={sendVerificationEmail} className="verify-button">
           Verify Email
         </button>
       )}

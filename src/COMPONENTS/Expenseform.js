@@ -11,7 +11,6 @@ const Expenseform = () => {
   const API_URL =
     "https://reexpensetracker-default-rtdb.firebaseio.com/expenses.json";
 
-  // Fetch expenses on component mount
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
@@ -32,24 +31,39 @@ const Expenseform = () => {
     fetchExpenses();
   }, []);
 
-  const addExpenseHandler = async () => {
-    const newExpense = { money, description, item };
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newExpense),
-      });
-      const data = await response.json();
-      setExpenses([...expenses, { id: data.name, ...newExpense }]);
-      resetForm();
-      alert("Expense added successfully!");
-    } catch (error) {
-      alert("Error adding expense: " + error.message);
-    }
-  };
+
+
+
+
+ const addExpenseHandler = async () => {
+   if (!money || !description) {
+     alert("Please fill in all required fields.");
+     return;
+   }
+
+   const newExpense = { money, description, item };
+   try {
+     const response = await fetch(API_URL, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(newExpense),
+     });
+     const data = await response.json();
+     setExpenses([...expenses, { id: data.name, ...newExpense }]);
+     resetForm();
+     alert("Expense added successfully!");
+   } catch (error) {
+     alert("Error adding expense: " + error.message);
+   }
+ };
+
+
+
+
+
+
 
   const deleteExpenseHandler = async (id) => {
     try {
@@ -65,6 +79,12 @@ const Expenseform = () => {
       alert("Error deleting expense: " + error.message);
     }
   };
+
+
+
+
+
+
 
   const editExpenseHandler = async () => {
     const updatedExpense = { money, description, item };
@@ -106,23 +126,28 @@ const Expenseform = () => {
   };
 
   return (
-    <div>
+    <div className="expense-form-container">
+      <h3 className="expense-form-heading">Money Spent</h3>
       <input
+        className="expense-form-input"
+        required
         type="number"
         placeholder="Money spent"
         value={money}
         onChange={(e) => setMoney(e.target.value)}
-        required
       />
-      <h3>Add Description</h3>
+      <h3 className="expense-form-heading">Add Description</h3>
       <input
+        className="expense-form-input"
         type="text"
         required
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
       <select
+        className="expense-form-select"
         name="item"
+        required
         id="item"
         value={item}
         onChange={(e) => setItem(e.target.value)}
@@ -131,18 +156,29 @@ const Expenseform = () => {
         <option value="Food">Food</option>
         <option value="Salary">Salary</option>
       </select>
-      <button onClick={editId ? editExpenseHandler : addExpenseHandler}>
+      <button
+        onClick={editId ? editExpenseHandler : addExpenseHandler}
+        className="expense-form-button"
+      >
         {editId ? "Update Expense" : "Add Expense"}
       </button>
-      <h3>Expenses</h3>
+      <h3 className="expense-form-heading">Expenses</h3>
       <ul>
         {expenses.map((expense) => (
-          <li key={expense.id}>
+          <li key={expense.id} className="expense-list-item">
             {expense.money} - {expense.description} - {expense.item}
-            <button onClick={() => deleteExpenseHandler(expense.id)}>
+            <button
+              className="delete-button"
+              onClick={() => deleteExpenseHandler(expense.id)}
+            >
               Delete
             </button>
-            <button onClick={() => startEditHandler(expense)}>Edit</button>
+            <button
+              className="edit-button"
+              onClick={() => startEditHandler(expense)}
+            >
+              Edit
+            </button>
           </li>
         ))}
       </ul>

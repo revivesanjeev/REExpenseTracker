@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Form.css"; // Import the CSS file
+import "./ForgetPasswordHandler.css"; // Import the CSS file
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ const ForgotPassword = () => {
     setMessage("");
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=YOUR_API_KEY",
       {
         method: "POST",
         body: JSON.stringify({
@@ -47,11 +47,11 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={resetPasswordHandler} className="form">
-        <h2 className="form-title">Reset Password</h2>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
+    <div className="forgot-password-form-container">
+      <form onSubmit={resetPasswordHandler} className="forgot-password-form">
+        <h2 className="forgot-password-form-title">Reset Password</h2>
+        <div className="forgot-password-form-group">
+          <label htmlFor="email" className="forgot-password-form-label">
             Email
           </label>
           <input
@@ -61,13 +61,17 @@ const ForgotPassword = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
+            className="forgot-password-form-input"
           />
         </div>
-        <button type="submit" className="form-button" disabled={loading}>
+        <button
+          type="submit"
+          className="forgot-password-form-button"
+          disabled={loading}
+        >
           {loading ? "Sending..." : "Send Reset Link"}
         </button>
-        {message && <p className="form-message">{message}</p>}
+        {message && <p className="forgot-password-form-message">{message}</p>}
       </form>
     </div>
   );

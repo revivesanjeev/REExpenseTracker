@@ -1,50 +1,92 @@
-div{
-  background-color: #f0f8ff;
+
+.expense-form-container {
+  max-width: 600px;
+  margin: 50px auto;
   padding: 20px;
+  background-color: #f9f9f9;
   border-radius: 8px;
-  max-width: 400px;
-  margin: 0 auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px  rgba(0, 0, 0, 0.1);
 }
 
 
-input[type="number"],
-input[type="text"] {
+.expense-form-heading {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+
+.expense-form-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
   width: calc(100% - 20px);
+}
+
+
+.expense-form-select {
   padding: 10px;
-  margin: 10px 0;
-  border: 2px solid #87cefa;
-  border-radius: 4px;
-  outline: none;
   font-size: 16px;
-  transition: border-color 0.3s ease-in-out;
-}
-
-input[type="number"]:focus,
-input[type="text"]:focus {
-  border-color: #1e90ff;
-}
-
-
-h3 {
-  color: #4169e1;
-  font-size: 18px;
-  margin: 15px 0 10px;
-}
-
-
-select {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #87cefa;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  margin-bottom: 10px;
+  width: calc(100%);
+}
+
+
+.expense-form-button {
+  padding: 10px 15px;
   font-size: 16px;
-  outline: none;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
   margin-top: 10px;
-  background-color: #ffffff;
-  transition: border-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
 
-select:focus {
-  border-color: #1e90ff;
+.expense-form-button:hover {
+  background-color: #0056b3;
 }
+
+
+.expense-list-item {
+  margin-bottom: 10px;
+  padding: 15px;
+  background-color: #bfec8b;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px ;
+}
+
+.expense-list-item button.edit-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #28a745; 
+}
+
+.expense-list-item button.delete-button {
+  background-color: #dd4f5d; 
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.expense-list-item button:hover {
+  background-color: #282b29; }

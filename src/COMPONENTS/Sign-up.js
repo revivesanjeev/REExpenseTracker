@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Sign-up.css"; 
 
 const Signup = () => {
-  const [email,setEmail]=useState("");
-  const [password,setpassword]=useState("");
-  const [confirmPassword,setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   const submithandler = (e) => {
     e.preventDefault();
-
 
     if (password !== confirmPassword) {
       alert("Password and Confirm Password do not match");
@@ -17,7 +17,7 @@ const Signup = () => {
     }
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBU9hhDeQLi9pam2iiNtGs2CqHWHiolr0w",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=YOUR_API_KEY",
       {
         method: "POST",
         body: JSON.stringify({
@@ -32,7 +32,7 @@ const Signup = () => {
     )
       .then((res) => {
         if (res.ok) {
-          console.log({ email, password });
+          console.log("Signup successful");
           return res.json();
         } else {
           return res.json().then((data) => {
@@ -44,17 +44,23 @@ const Signup = () => {
           });
         }
       })
+      .then(() => {
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        navigate("/login");
+      })
       .catch((err) => {
         alert(err.message);
       });
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={submithandler} className="form">
-        <h2 className="form-title">Sign Up</h2>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
+    <div className="signup-form-container">
+      <form onSubmit={submithandler} className="signup-form">
+        <h2 className="signup-form-title">Sign Up</h2>
+        <div className="signup-form-group">
+          <label htmlFor="email" className="signup-form-label">
             Email
           </label>
           <input
@@ -64,11 +70,11 @@ const Signup = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
+            className="signup-form-input"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
+        <div className="signup-form-group">
+          <label htmlFor="password" className="signup-form-label">
             Password
           </label>
           <input
@@ -77,12 +83,12 @@ const Signup = () => {
             required
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setpassword(e.target.value)}
-            className="form-input"
+            onChange={(e) => setPassword(e.target.value)}
+            className="signup-form-input"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword" className="form-label">
+        <div className="signup-form-group">
+          <label htmlFor="confirmPassword" className="signup-form-label">
             Confirm Password
           </label>
           <input
@@ -92,16 +98,16 @@ const Signup = () => {
             placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="form-input"
+            className="signup-form-input"
           />
         </div>
-        <button type="submit" className="form-button">
+        <button type="submit" className="signup-form-button">
           Sign Up
         </button>
         <button
           type="button"
           onClick={() => navigate("/login")}
-          className="form-link-button"
+          className="signup-form-link-button"
         >
           Have an account? Login
         </button>
